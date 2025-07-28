@@ -98,27 +98,28 @@ public class TestProcess extends TestCase {
    * This method used for Iot Platform SDK Docker services make UP/DOWN.
    */
   public static void execute_dockerCmd(String directory, String command) {
-    List<String> commands = new ArrayList<>();
-    commands.add("bash");
-    commands.add("-c");
-    commands.add(command);
+      List<String> commands = new ArrayList<>();
+      commands.add("bash");
+      commands.add("-c");
+      commands.add(command);
 
-    ProcessBuilder builder = new ProcessBuilder().inheritIO();
-    builder.command(commands);
-    File path1 = new File(directory);
-    TestLogger.info("=====> File(directory): " + path1.toString());
-    builder.directory(new File(directory));
-    String path = System.getenv("PATH");
-    builder.environment().put("PATH", "/usr/bin:" + path);
-    builder.redirectErrorStream(true);
-    builder.redirectError(Redirect.INHERIT);
+      ProcessBuilder builder = new ProcessBuilder().inheritIO();
+      builder.command(commands);
+      File path1 = new File(directory);
+      TestLogger.info("=====> File(directory): " + path1.toString());
+      builder.directory(new File(directory));
+      String path = System.getenv("PATH");
+      builder.environment().put("PATH", "/usr/bin:" + path);
+      builder.redirectErrorStream(true);
+      builder.redirectError(Redirect.INHERIT);
 
-    try {
-      builder.start();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
+      try {
+          Process process = builder.start();
+          int exitCode = process.waitFor(); // 等待进程完成
+          TestLogger.info("Docker command completed with exit code: " + exitCode);
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
   }
 
   /**
