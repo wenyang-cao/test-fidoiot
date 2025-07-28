@@ -114,14 +114,13 @@ public class TestProcess extends TestCase {
     builder.redirectError(Redirect.INHERIT);
 
     try {
-        Process process = builder.start();
-        int exitCode = process.waitFor();
-        TestLogger.info("Docker command completed with exit code: " + exitCode);
+      Process process = builder.start();
+      int exitCode = process.waitFor();
+      TestLogger.info("Docker command completed with exit code: " + exitCode);
     } catch (Exception e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
   }
-
   /**
    * Starts a new process using the attributes of the process builder.
    *
